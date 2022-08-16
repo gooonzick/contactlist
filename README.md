@@ -1,4 +1,4 @@
-# contactlist
+# contactlist (test)
 Server
 1. Create Postgre database.
 2. Create .env file (see .env_example)
@@ -12,3 +12,8 @@ Client
 1. Create .env file (see .env_example)
 2. execute in terminal ```npm i```
 3. execute in terminal ```npm start```
+
+User with several contacts:
+
+login: ```joseph.joestar@jojo.com``` \
+pass: ```123```
