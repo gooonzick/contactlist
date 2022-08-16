@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import ErrorModal from './components/ErrorModal/ErrorModal';
@@ -8,17 +9,25 @@ import HomePage from './Pages/HomePage/HomePage';
 import MyContactsPage from './Pages/MyContactsPage/MyContactsPage';
 import { setCredentials } from './redux/slices/userSlice';
 
-const getAuthState = () => ({
-  user: JSON.parse(localStorage.getItem('user') ?? ''),
-  token: sessionStorage.getItem('token') ?? '',
-});
+const getAuthState = () => {
+  const userFromStorage = localStorage.getItem('user');
+  const tokenFromStorage = sessionStorage.getItem('token');
+  if (userFromStorage && tokenFromStorage) {
+    return { user: JSON.parse(userFromStorage), token: tokenFromStorage };
+  }
+  return null;
+};
 
 function App() {
   const dispath = useDispatch();
   const authState = getAuthState();
-  if (authState.token && authState.user) {
-    dispath(setCredentials(authState));
-  }
+
+  useMemo(() => {
+    if (authState) {
+      dispath(setCredentials(authState));
+    }
+  }, [authState]);
+
   return (
     <>
       <NavBar />
