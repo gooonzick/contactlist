@@ -15,7 +15,7 @@ const isOwner = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.headers.authorization) return res.status(401).json({ errorMessage: 'Вы не авторизованный для этой операции' });
   try {
     const token: string = req.headers.authorization.split(' ')[1];
-    const { userId } = await jwt.verify(
+    const { userId } = jwt.verify(
       token,
       String(process.env.TOKEN_SECRET).toString(),
     ) as Token;

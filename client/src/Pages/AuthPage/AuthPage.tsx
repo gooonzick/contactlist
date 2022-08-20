@@ -4,8 +4,8 @@ import { FetchBaseQueryMeta } from '@reduxjs/toolkit/dist/query';
 import {
   ChangeEvent, SyntheticEvent, useEffect, useState,
 } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 import ErrorModal from '../../components/ErrorModal/ErrorModal';
 import LogInForm from '../../components/LogInForm/LogInForm';
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
@@ -13,10 +13,11 @@ import TabPanel from '../../components/TabPanel/TabPanel';
 import { CustomError } from '../../models/CustomError';
 import {
   SigninRequest, SignupRequest, useSignInMutation, useSignUpMutation,
-} from '../../redux/api/api';
+} from '../../redux/api/auth.api';
 
 import { showError } from '../../redux/slices/errorSlice';
 import { setCredentials } from '../../redux/slices/userSlice';
+import { RootState } from '../../redux/store';
 
 const mainBoxSx = {
   width: '60vh',
@@ -30,6 +31,7 @@ const mainBoxSx = {
 
 function AuthPage() {
   const dispatch = useDispatch();
+  const userInState = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0);
   const [formData, setFormData] = useState < SignupRequest & SigninRequest >({
@@ -90,6 +92,8 @@ function AuthPage() {
       dispatch(showError((signInError as CustomError).data.errorMessage));
     }
   }, [signInError, signUpError]);
+
+  if (userInState && userInState.name) return <Navigate to="/myContacts" />;
 
   return (
     <>

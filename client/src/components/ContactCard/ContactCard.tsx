@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Contact } from '../../redux/api/api';
+import { Contact } from '../../redux/api/contacts.api';
 
 type Props = {
   contact: Contact

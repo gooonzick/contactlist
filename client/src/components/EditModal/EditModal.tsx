@@ -3,7 +3,7 @@ import {
 } from '@mui/material';
 import React, { ChangeEvent } from 'react';
 import { ModalState } from '../../Pages/MyContactsPage/MyContactsPage';
-import { Contact } from '../../redux/api/api';
+import { Contact } from '../../redux/api/contacts.api';
 
 type Props = {
     modal: ModalState

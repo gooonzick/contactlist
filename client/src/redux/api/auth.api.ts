@@ -25,15 +25,13 @@ export interface SignupRequest {
   password: string
 }
 
-export interface Contact {
-  id: number
-  name: string
-  phone: string
-  email: string
+export interface TokenValidation {
+  errorMessage?: string
+  isValid?: boolean
 }
 
-export const api = createApi({
-  tagTypes: ['Contacts'],
+export const authApi = createApi({
+  reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_HOST ?? 'http://localhost:3010/api/v1',
     prepareHeaders: (headers, { getState }) => {
@@ -59,34 +57,8 @@ export const api = createApi({
         body: credentials,
       }),
     }),
-    getAllContacts: builder.query<Contact[], void>({
-      query: () => ({ url: '/contacts' }),
-      providesTags: (result, error, arg) => (result
-        ? [...result.map(({ id }) => ({ type: 'Contacts' as const, id })), 'Contacts']
-        : ['Contacts']),
-    }),
-    editContact: builder.mutation<Contact[], Contact>({
-      query: ({ id, ...newData }) => ({
-        url: `/contacts/${id}`,
-        method: 'PATCH',
-        body: newData,
-      }),
-      invalidatesTags: ['Contacts'],
-    }),
-    addContact: builder.mutation<Contact[], Contact>({
-      query: (newData) => ({
-        url: '/contacts',
-        method: 'POST',
-        body: newData,
-      }),
-      invalidatesTags: ['Contacts'],
-    }),
-    deleteContact: builder.mutation<Contact[], Contact>({
-      query: ({ id, ...data }) => ({
-        url: `/contacts/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Contacts'],
+    checkToken: builder.query<TokenValidation, void>({
+      query: () => ({ url: '/auth/token' }),
     }),
   }),
 });
@@ -94,8 +66,5 @@ export const api = createApi({
 export const {
   useSignInMutation,
   useSignUpMutation,
-  useGetAllContactsQuery,
-  useEditContactMutation,
-  useAddContactMutation,
-  useDeleteContactMutation,
-} = api;
+  useCheckTokenQuery,
+} = authApi;

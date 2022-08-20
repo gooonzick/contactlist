@@ -89,3 +89,18 @@ export const signIn = async (req: CustomRequest<SignUpForm>, res: Response) => {
     return res.status(500).json({ errorMessage: 'Ошибка сервера' });
   }
 };
+
+export const validateToken = (req: Request, res: Response) => {
+  try {
+    if (!req.headers.authorization) return res.status(401).json({ errorMessage: 'Вы не авторизованный для этой операции' });
+    const token: string = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, String(process.env.TOKEN_SECRET).toString());
+    return res.json({ isValid: true });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      return res.status(500).json({ errorMessage: error.message });
+    }
+    return res.status(500).json({ errorMessage: 'Ошибка сервера' });
+  }
+};

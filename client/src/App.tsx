@@ -7,7 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import AuthPage from './Pages/AuthPage/AuthPage';
 import HomePage from './Pages/HomePage/HomePage';
 import MyContactsPage from './Pages/MyContactsPage/MyContactsPage';
-import { setCredentials } from './redux/slices/userSlice';
+import { useCheckTokenQuery } from './redux/api/auth.api';
+import { setCredentials, signOut } from './redux/slices/userSlice';
 
 const getAuthState = () => {
   const userFromStorage = localStorage.getItem('user');

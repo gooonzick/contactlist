@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { User } from '../api/api';
+import { User } from '../api/auth.api';
 
 type Contacts = {
   id: number

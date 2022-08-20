@@ -8,7 +8,7 @@ import {
   useDeleteContactMutation,
   useEditContactMutation,
   useGetAllContactsQuery,
-} from '../../redux/api/api';
+} from '../../redux/api/contacts.api';
 import { showError } from '../../redux/slices/errorSlice';
 
 export type ModalState = {

@@ -2,7 +2,7 @@ import { Box, Button, TextField } from '@mui/material';
 import { ChangeEventHandler } from 'react';
 import {
   SigninRequest, SignupRequest,
-} from '../../redux/api/api';
+} from '../../redux/api/auth.api';
 
 function SignUpForm(props: {
   form: SigninRequest & SignupRequest,

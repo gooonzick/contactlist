@@ -7,7 +7,7 @@ export type Token = {
   userId: any
   userName: string
 }
-const isAuth = (req: Request, res: Response, next: NextFunction) => {
+const isOwner = (req: Request, res: Response, next: NextFunction) => {
   if (!req.headers.authorization) return res.status(401).json({ errorMessage: 'Вы не авторизованный для этой операции' });
   try {
     const token: string = req.headers.authorization.split(' ')[1];
@@ -15,7 +15,7 @@ const isAuth = (req: Request, res: Response, next: NextFunction) => {
       token,
       String(process.env.TOKEN_SECRET).toString(),
     ) as Token;
-    res.locals.userId = Number.parseInt(userId, 10);
+    if (!userId) return res.status(401).json({ errorMessage: 'Вы не авторизованный для этой операции' });
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ errorMessage: error.message });
@@ -25,4 +25,4 @@ const isAuth = (req: Request, res: Response, next: NextFunction) => {
   return next();
 };
 
-export default isAuth;
+export default isOwner;
